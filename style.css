@@ -2,6 +2,31 @@ html, body {
   margin: 0;
   padding: 0;
 }
+
 canvas {
   display: block;
+}
+
+.sidebar {
+    background-color: #FFA67A;
+    height:100vh;
+    overflow: hidden;
+}
+
+.content {
+    overflow: scroll;
+}
+
+.recipes {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+#bigContainer{
+    margin-bottom: 0;
+}
+
+main {
+    display:none;
 }

@@ -6,6 +6,9 @@
     
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     
     <!-- My CSS -->
     <link rel="stylesheet" type="text/css" href="style.css">
@@ -14,26 +17,31 @@
   </head>
     
   <body>
-    
-    <div class="sidebar">
-        <h1>What can I make for dinner?</h1>
-        <p>
-            Ingredients: 
-            <input type="text" placeholder="eggs, onions" id="ingredient"/>
-        </p>
-        <p>
-            Keyword: 
-            <input type="text" placeholder="optional" id="keyword"/>
-        </p>
-        <button id="submit" class="btn btn-primary">SEARCH</button>
-    </div>
+    <div class="row" id="bigContainer">
+        <div class="sidebar col s12 m4 l3">
+            <h1>What can I make for dinner?</h1>
+            <p>
+                Ingredients: 
+                <input type="text" placeholder="eggs, onions" id="ingredient"/>
+            </p>
+            <p>
+                Keyword: 
+                <input type="text" placeholder="optional" id="keyword"/>
+            </p>
+            <button id="submit" class="btn btn-primary">SEARCH</button>
+        </div>
       
-    <!-- Page content -->
-    <div class="content">
-        <p>Search for recipes by ingredients and keyword</p>
+        <!-- Page content -->
+        <div class="content col s12 m8 l9">
+            <p>Search for recipes by ingredients and keyword</p>
+            <div id="recipes">
+            </div>
+        </div>
     </div>
       
     <script src="sketch.js"></script>
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   </body>
     
 </html>
