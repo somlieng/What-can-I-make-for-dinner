@@ -1,16 +1,71 @@
 let url = "http://www.recipepuppy.com/api/";
 let ingredientsInput = " ";
 let keywordInput = " ";
+let oldKey = " ";
 let submitButton;
 let pageNum = 1;
 let recipeBox;
 let firstText;
+let next;
+let back;
+let sidenav;
+
+let showing = false;
     
 function setup() {
     submitButton = select('#submit');
     recipeBox = select('#recipes');
     firstText = select('#placeholder');
+    next = select('#next');
+    next.hide();
+    back = select('#back');
+    back.hide();
+    
+    //sidenav initialized from Matieralize JQURERY code NOT MINE
+    $('.sidenav').sidenav();
+    
     searchRecipes(submitButton);
+    
+    if(showing === true){
+       nextPage(next);
+    }
+}
+
+
+function nextPage(){
+    pageNum++;
+    grabData();
+}
+
+function lastPage(){
+    pageNum--;
+    grabData();
+}
+
+//make Card object
+function Card(title, thumbnail, ingredients, href) {
+    
+   var source;
+   if(thumbnail === ""){
+        source = 'img/bred_sheeran.jpg'
+    } else{
+        source = thumbnail};    
+    
+  this.html = 
+      `<div class="col s12 m4">
+    <div class="card">
+      <div class="card-image">
+        <img src="${source}">
+      </div>
+      <div class="card-content">
+        <h5>${title}</h5>
+        <p>${ingredients}</p>
+      </div>
+      <div class="card-action">
+        <a href="${href}">Click here for the recipe</a>
+      </div>
+    </div>
+  </div>`;
 }
 
 function searchRecipes(button){
@@ -18,16 +73,25 @@ function searchRecipes(button){
 }
 
 function getValues(){
-    ingredientsInput = select('#ingredient').value();
+    ingredientsInput = select('#ingredients').value();
     keywordInput = select('#keyword').value();
 }
 
 function grabData() {
   
   firstText.hide();
+  next.show();
+  back.show();
+  showing = true;
     
   //grab values inside text input
   getValues();
+    
+  if(oldKey !== keywordInput){
+    pageNum = 1;
+  }
+    
+  oldKey = keywordInput;
   
   let ingredients = "?i="+ingredientsInput;
   let keyword = "&q="+keywordInput;
@@ -35,54 +99,33 @@ function grabData() {
   
   fetch(url+ingredients+keyword+page) 
   .then(response => response.json())
-  .then(data => makeCards(data))
-  .catch(err =>
-    console.error(err))
+  .then(data => fillRow(data))
+  .catch(err =>{
+    console.error(err);
+    M.toast({html: 'Oh no! No more recipes :('});
+  })
 }
 
-function makeCards(data){
-    var info = data.results
-    for(var i = 0; i < data.results.length;i++){
-        
-        //card class
-        var card = createDiv();
-        card.class('card');
-        
-        //card image
-        var cardImage = createDiv();
-        cardImage.class('card-image');
-        
-        var image = createImg('https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Welchcorgipembroke.JPG/1200px-Welchcorgipembroke.JPG',info[i].title)
-        
-        //card content class
-        var cardContent = createDiv(); 
-        cardContent.class('card-content');
-        
-        //recipe title
-        var title = createElement('h5',info[i].title);
-        
-        card.child(cardImage);
-        cardImage.child(image);
-        card.child(cardContent);
-        cardContent.child(title);
-        
-        recipeBox.child(card);
+function fillRow(data){
+    
+    if(data.results.length === 0){
+     var empty = 'No recipes were found for your ingredient list :(';
+     firstText.html(empty);
+     firstText.show();
     }
-    print(data);
-}
-
-function card(){
-    var html = '<h5>Recipe Title</h5>';
-//    <div class="card">
-//            <div class="card-image">
-//                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Welchcorgipembroke.JPG/1200px-Welchcorgipembroke.JPG">
-//            </div>
-//            <div class="card-content">
-//                <h5>Recipe Title</h5>
-//                <p>Ingredients: <span class="items"></span></p>
-//            </div>
-//            <div class="card-action">
-//                <a href="#">Click here to see recipe</a>
-//            </div>
-//        </div>
+    
+    let numRows = Math.ceil(data.results.length / 3);
+    let rows = [];
+    for (let i = 0; i < numRows; ++i) {
+      rows.push(new Row());
+      while (rows[i].columns.length < 3 && data.results.length > 0) {
+        let recipe = data.results.shift();
+        rows[i].columns.push(new Card(recipe.title, recipe.thumbnail, recipe.ingredients, recipe.href));
+      }
+    }
+    var temp = '';
+    for (let i = 0; i < rows.length; i++) {
+        temp += rows[i].getHTML();
+    }
+    recipeBox.html(temp);
 }

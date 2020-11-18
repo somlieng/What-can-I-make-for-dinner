@@ -8,25 +8,63 @@ canvas {
 }
 
 .sidebar {
-    background-color: #FFA67A;
     height:100vh;
     overflow: hidden;
+    background: #e7e6e4;
+}
+
+.btn, .btn-large, .btn-small{
+    background: #FFA67A;
+    color: #231f20;
+}
+
+.btn:hover, .btn-large:hover, .btn-small:hover{
+    background: #F7ece0;
 }
 
 .content {
     overflow: scroll;
 }
 
-.recipes {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+#recipeContainer{
+    width:95%;
 }
 
-#bigContainer{
-    margin-bottom: 0;
+.card-image{
+    height: 150px;
+    overflow: hidden;
 }
 
-main {
-    display:none;
+.icon-block {
+  padding: 0 15px;
+}
+
+.icon-block .material-icons {
+	font-size: inherit;
+}
+
+header, main, footer {
+  padding-left: 300px;
+}
+
+@media only screen and (max-width : 992px) {
+  header, main, footer {
+    padding-left: 0;
+  }
+}
+
+.input-field label {
+    font-size: 16px;
+    color: #231f20;
+}
+
+.input-field input[type=text].valid {
+    border-bottom: 1px solid #000;
+    box-shadow: 0 1px 0 0 #000;
+}
+
+/* label underline focus color */
+input[type=text]:focus {
+    border-bottom: 1px solid #000;
+    box-shadow: 0 1px 0 0 #000;
 }
