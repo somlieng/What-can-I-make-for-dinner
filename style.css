@@ -22,8 +22,17 @@ input,a,p{
     font-weight: 200;
 }
 
+#placeholder{
+    color:#acacac;
+}
+
+.valign-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .sidebar {
-    height:100vh;
     overflow: hidden;
     background: #e7e6e4;
 }

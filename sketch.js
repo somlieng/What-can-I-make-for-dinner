@@ -55,7 +55,7 @@ function Card(title, thumbnail, ingredients, href) {
         source = thumbnail};    
     
   this.html = 
-      `<div class="col s12 m4">
+      `<div class="col s12 m4 hoverable">
     <div class="card">
       <div class="card-image">
         <img src="${source}">
