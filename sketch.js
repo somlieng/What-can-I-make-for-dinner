@@ -9,11 +9,13 @@ let firstText;
 let next;
 let back;
 let sidenav;
+let chooseButton;
 
 let showing = false;
     
 function setup() {
     submitButton = select('#submit');
+    chooseButton = select('#chooser');
     recipeBox = select('#recipes');
     firstText = select('#placeholder');
     next = select('#next');
@@ -25,6 +27,7 @@ function setup() {
     $('.sidenav').sidenav();
     
     searchRecipes(submitButton);
+    randomRecipes(chooseButton);
     
     if(showing === true){
        nextPage(next);
@@ -72,6 +75,10 @@ function searchRecipes(button){
     button.mousePressed(grabData);
 }
 
+function randomRecipes(button){
+    button.mousePressed(grabData2);
+}
+
 function getValues(){
     ingredientsInput = select('#ingredients').value();
     keywordInput = select('#keyword').value();
@@ -80,8 +87,6 @@ function getValues(){
 function grabData() {
   
   firstText.hide();
-  next.show();
-  back.show();
   showing = true;
     
   //grab values inside text input
@@ -104,6 +109,56 @@ function grabData() {
     console.error(err);
     M.toast({html: 'Oh no! No more recipes :('});
   })
+    
+    next.show();
+    back.show();
+}
+
+function grabData2() {
+  
+  firstText.hide();
+  next.hide();
+  back.hide();
+  showing = true;
+    
+  //grab values inside text input
+  getValues();
+    
+  if(oldKey !== keywordInput){
+    pageNum = 1;
+  }
+    
+  oldKey = keywordInput;
+  
+  let ingredients = "?i="+ingredientsInput;
+  let keyword = "&q="+keywordInput;
+  let page = "&p="+pageNum;
+  
+  fetch(url+ingredients+keyword+page) 
+  .then(response => response.json())
+  .then(data => chooseForMe(data))
+  .catch(err =>{
+    console.error(err);
+    M.toast({html: 'Oh no! No more recipes :('});
+  })
+}
+
+function chooseForMe(data){
+   if(data.results.length === 0){
+     var empty = 'No recipes were found for your ingredient list :(';
+     firstText.html(empty);
+     firstText.show();
+    }
+   
+   let rows = [];
+   rows.push(new Row());
+   print(rows);
+   let recipe = random(data.results);
+   print(recipe);
+   rows[0].columns.push(new Card(recipe.title, recipe.thumbnail, recipe.ingredients, recipe.href));
+    
+   recipeBox.html(rows[0].getHTML());
+   
 }
 
 function fillRow(data){

@@ -7,6 +7,21 @@ canvas {
   display: block;
 }
 
+h1{
+    font-family: 'Prata', serif;
+    font-size: 52px;
+}
+
+label,h5{
+    font-family: 'Nunito', sans-serif;
+    font-weight: 400;
+}
+
+input,a,p{
+    font-family: 'Nunito', sans-serif;
+    font-weight: 200;
+}
+
 .sidebar {
     height:100vh;
     overflow: hidden;
@@ -19,6 +34,10 @@ canvas {
 }
 
 .btn:hover, .btn-large:hover, .btn-small:hover{
+    background: #F7ece0;
+}
+
+.btn:focus, .btn-large:focus, .btn-small:focus{
     background: #F7ece0;
 }
 
